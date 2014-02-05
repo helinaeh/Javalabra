@@ -1,0 +1,44 @@
+10
+
+dir
+25
+svn+ssh://users.cs.helsinki.fi/home/hthakala/repository/JavaLabra/src
+svn+ssh://users.cs.helsinki.fi/home/hthakala/repository
+
+
+
+2012-02-24T18:22:08.025751Z
+25
+hthakala
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+867c5af6-c646-45df-abfa-22a477ac57d4
+
+GraphKayttol
+dir
+
+GraphKayttol2
+dir
+
+
+
+delete
+
+Kayttoliittyma
+dir
+
+Logiikka
+dir
+

@@ -1,0 +1,58 @@
+import Logiikka.Pelilogiikka;
+import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *Testiluokka, joka testaa Pelilogiikan toimivuutta
+ * 
+ * @author Helinä Hakala
+ */
+public class PelilogiikkaTest {
+    
+    Pelilogiikka peli;
+    double tarkkuus = 0.01;
+    
+    public PelilogiikkaTest() {
+    }
+    
+    @Before
+    public void setUp() {
+        peli = new Pelilogiikka();
+    }
+    
+    @Test
+    public void uudenPelilogiikanParametriMaaraaKyseltavienKysymystenMaaran() {
+        assertEquals(5, peli.getKysymystenMaara(), tarkkuus);
+    }
+    
+    @Test
+    public void uudenPelilogiikanParametriMaaraaKyseltavienKysymystenMaaran2() {
+        peli = new Pelilogiikka(17);
+        assertEquals(17, peli.getKysymystenMaara(), tarkkuus);
+    }
+    
+//    @Test
+//    public void josAnnetaanOikeaVastausOikeatKasvavat() throws FileNotFoundException {
+////        peli.run("Testiluku");
+//        ArrayList<String[]> lista = peli.getArvotutVuosiluvut();
+//        String ekaVuosi = lista.get(0)[0];
+//        //assertEquals(tarkkuus);
+//    }
+    
+//    @Test
+//    public void asd() {
+//        assertEquals();
+//    }
+    
+//    @Test
+//    public void hello() {
+//        assertEquals(haluttuArvo, todellinenArvo, tarkkuus);
+//    }
+    
+}

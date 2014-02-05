@@ -1,0 +1,97 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package GraphKayttol;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import java.util.*;
+import javax.imageio.ImageIO;
+
+
+/**
+ *
+ * @author hthakala
+ */
+public class GraafistaKokeilua extends JFrame {
+    
+    // käyttöliittymäkentät:
+    private JTextField tapahtuma;
+    private JButton    ok;
+    private JLayeredPane paneeli;
+    
+    private BufferedImage kuva;
+    
+    //konstruktori
+    public GraafistaKokeilua() {
+        
+        paneeli = new JLayeredPane();
+        paneeli.setPreferredSize(new Dimension(1000, 680));
+        setContentPane(paneeli);
+        
+        tapahtuma  = new JTextField();
+        tapahtuma.setEditable(false);  // kirjoituskielto käyttäjälle
+        tapahtuma.setText("tähän tulee tapahtumia!"); //aloitusteksti pelille
+        ok  = new JButton("OK");
+        
+        //tapahtumakuuntelija:
+        ok.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent action) {
+                    //kun painetaan ok, välitetään vastaus pelilogiikalle, TOTEUTA!
+                    tapahtuma.setText("uutta tapahtumaa kehiin!");
+                }
+            }
+        );
+        
+        //lisätään kuva
+        String source = "Tiedostot/peliteema2.png";
+        try {                
+          kuva = ImageIO.read(new File(source));
+        } catch (IOException e) {
+            System.out.println("Tiedostoa " + source + " ei löydy.");
+        }
+        ImageIcon kuvaIcon = new ImageIcon(kuva);
+        JLabel picLabel = new JLabel(kuvaIcon);
+        
+        //JLabel emptyLabel = new JLabel();
+        
+        //JFrame.setDefaultLookAndFeelDecorated(true);
+        //setIconImage(new ImageIcon(source).getImage());
+
+        
+        //Dimension d = picLabel.getPreferredSize(); 
+        //picLabel.setPreferredSize(new Dimension(d.width+60,d.height));
+        
+        picLabel.setPreferredSize(new Dimension(1000, 680));
+        picLabel.setBounds(0, 0,
+                    kuvaIcon.getIconWidth(),
+                    kuvaIcon.getIconHeight());
+        add(picLabel, JLayeredPane.DEFAULT_LAYER, 0); //elementin lisääminen layoutiin
+        
+        ok.setBounds(450, 450, 70, 50);
+        add(ok, JLayeredPane.PALETTE_LAYER, 0); //elementin lisääminen layoutiin
+        
+        tapahtuma.setOpaque(false);
+        tapahtuma.setBounds(350, 200, 300, 100);
+        add(tapahtuma, JLayeredPane.PALETTE_LAYER);
+        
+        
+        
+    }
+    
+    public static void main(String args[]) {
+        GraafistaKokeilua ikkuna = new GraafistaKokeilua();
+        ikkuna.setTitle("Historian havinaa");
+        ikkuna.pack();
+        ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ikkuna.setVisible(true);
+    }
+    
+}

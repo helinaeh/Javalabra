@@ -1,0 +1,195 @@
+package GraphKayttol;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import java.util.*;
+import javax.imageio.ImageIO;
+import Logiikka.Pelilogiikka;
+
+/**
+ * Pelin peliteeman käyttöliittymä
+ *
+ * @author Helinä Hakala
+ */
+public class Peliteema extends JFrame {
+
+    // käyttöliittymäkentät:
+    private JTextField otsikko, tapahtuma, oikeinVaarin;
+    private JButton ok1, ok2;
+    private JLayeredPane paneeli;
+    private BufferedImage kuva;
+    private Font tekstiFontti, otsikkoFontti;
+    private JRadioButton kohta1, kohta2, kohta3, kohta4;
+    private ButtonGroup vaihtoehdot;
+    private Pelilogiikka logiikka;
+    private String[] vaihtoehtoLista;
+    private int okPainettu;
+    
+    //konstruktori
+    public Peliteema() {
+
+        logiikka = new Pelilogiikka(); //konstruktorille annetaan parametrit valikko2:ssa
+        logiikka.aloitaPeli();
+
+        paneeli = new JLayeredPane();
+        paneeli.setPreferredSize(new Dimension(1000, 680));
+        setContentPane(paneeli);
+
+        tekstiFontti = new Font("Times New Roman", Font.PLAIN, 20);
+        otsikkoFontti = new Font("Monotype Corsiva", Font.PLAIN, 40);
+
+        otsikko = new JTextField();
+        otsikko.setFont(otsikkoFontti);
+        otsikko.setForeground(Color.WHITE);
+        otsikko.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        otsikko.setEditable(false);
+        otsikko.setText("Historian havinaa");
+
+        tapahtuma = new JTextField();
+        tapahtuma.setFont(tekstiFontti);
+        tapahtuma.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        tapahtuma.setEditable(false);  // kirjoituskielto käyttäjälle
+        tapahtuma.setText("Peli alkaa!"); //aloitusteksti pelille
+
+        //Stringeiksi pitäisi hakea ohjelmasta vuosilukuvaihtoehdot!
+        kohta1 = new JRadioButton();
+        kohta2 = new JRadioButton();
+        kohta3 = new JRadioButton();
+        kohta4 = new JRadioButton();
+
+        vaihtoehdot = new ButtonGroup();
+        vaihtoehdot.add(kohta1);
+        vaihtoehdot.add(kohta2);
+        vaihtoehdot.add(kohta3);
+        vaihtoehdot.add(kohta4);
+        kohta1.setOpaque(false);
+        kohta2.setOpaque(false);
+        kohta3.setOpaque(false);
+        kohta4.setOpaque(false);
+
+        ok1 = new JButton("OK");
+        ok1.setSelected(true);
+        okPainettu = 0;
+        
+        //tapahtumakuuntelija:
+        ok1.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent action) {
+                        //kun painetaan ok, välitetään vastaus pelilogiikalle, TOTEUTA! 
+                        if (!ok1.isSelected()) {
+                            onkoVastausOikein();
+                        }
+                        else {
+                            esitaUusiKysymys();     //varmista, että pelaajan on pakko vastata jotakin!
+                        }
+                        
+                        if (okPainettu == logiikka.getKysymystenMaara()) {
+                            //kerrotaan pelaajan yhteispisteet ja poistutaan peli-ikkunasta
+                        }
+                    }
+                });
+
+        //lisätään taustakuva
+        lisaaKuvaTaustaksi("Tiedostot/peliteema.png");
+        
+
+        otsikko.setOpaque(false);
+        otsikko.setBounds(450, 50, 300, 100);
+        add(otsikko, JLayeredPane.PALETTE_LAYER);
+
+        ok1.setBounds(465, 450, 70, 40);
+        add(ok1, JLayeredPane.PALETTE_LAYER, 0); //elementin lisääminen layoutiin
+
+        tapahtuma.setHorizontalAlignment(JTextField.CENTER); //asettaa tekstin keskelle
+        tapahtuma.setOpaque(false);
+        tapahtuma.setBounds(350, 200, 300, 100);
+        add(tapahtuma, JLayeredPane.PALETTE_LAYER); //elementin lisääminen layoutiin
+
+    }
+    
+    public void lisaaKuvaTaustaksi(String kuvanNimi) {
+        try {
+            kuva = ImageIO.read(new File(kuvanNimi));
+        } catch (IOException e) {
+            System.out.println("Kuvatiedostoa ei löydy.");
+        }
+        ImageIcon kuvaIcon = new ImageIcon(kuva);
+        JLabel picLabel = new JLabel(kuvaIcon);
+
+        picLabel.setPreferredSize(new Dimension(1000, 680));
+        picLabel.setBounds(0, 0,
+                kuvaIcon.getIconWidth(),
+                kuvaIcon.getIconHeight());
+        add(picLabel, JLayeredPane.DEFAULT_LAYER, 0); //elementin lisääminen layoutiin
+    }
+
+    public void onkoVastausOikein() {
+        if (kohta1.isSelected()) {
+            if (vaihtoehtoLista[0].equals(logiikka.getVuosiluku())) {
+                tapahtuma.setText("Oikein! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+            else {
+                tapahtuma.setText("Väärin! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+        }
+        else if (kohta2.isSelected()) {
+            if (vaihtoehtoLista[1].equals(logiikka.getVuosiluku())) {
+                tapahtuma.setText("Oikein! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+            else {
+                tapahtuma.setText("Väärin! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+        }
+        else if (kohta3.isSelected()) {
+            if (vaihtoehtoLista[2].equals(logiikka.getVuosiluku())) {
+                tapahtuma.setText("Oikein! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+            else {
+                tapahtuma.setText("Väärin! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+        }
+        else if (kohta4.isSelected()) {
+            if (vaihtoehtoLista[3].equals(logiikka.getVuosiluku())) {
+                tapahtuma.setText("Oikein! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+            else {
+                tapahtuma.setText("Väärin! Oikea vastaus oli " + logiikka.getVuosiluku() + ".");
+            }
+        }
+        ok1.setSelected(true);
+        okPainettu++;
+    }
+
+    public void esitaUusiKysymys() {
+        vaihtoehtoLista = logiikka.arvoVaihtoehdot();
+        kohta1.setText(vaihtoehtoLista[0]);
+        kohta2.setText(vaihtoehtoLista[1]);
+        kohta3.setText(vaihtoehtoLista[2]);
+        kohta4.setText(vaihtoehtoLista[3]);
+
+        JPanel valikkoPaneeli = new JPanel(new GridLayout(0, 1));
+        valikkoPaneeli.add(kohta1);
+        valikkoPaneeli.add(kohta2);
+        valikkoPaneeli.add(kohta3);
+        valikkoPaneeli.add(kohta4);
+        valikkoPaneeli.setOpaque(false);
+        valikkoPaneeli.setBounds(450, 325, 150, 100);
+        add(valikkoPaneeli, JLayeredPane.PALETTE_LAYER);
+
+        tapahtuma.setText((logiikka.getJarjestysluku() + 1) + ". " + logiikka.getTapahtuma());
+        logiikka.seuraavaanKysymykseen();
+        vaihtoehdot.clearSelection();
+        ok1.setSelected(false);
+    }
+    
+    public static void main(String args[]) {
+        Peliteema ikkuna = new Peliteema();
+        ikkuna.setTitle("Historian havinaa");
+        ikkuna.pack();
+        ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ikkuna.setVisible(true);
+    }
+}
